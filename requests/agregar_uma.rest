@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/umas
+content-type: application/json
+
+{
+    "name": "Oguri Cap",
+    "hair_color": "Gris",
+    "eye_color": "Gris",
+    "height": "170cm",
+    "avatar": "AvatarTest"
+}
