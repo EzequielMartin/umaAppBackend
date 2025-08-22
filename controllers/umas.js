@@ -48,16 +48,10 @@ umasRouter.post("/", async (req, res) => {
 umasRouter.put("/:id", async (req, res) => {
   try {
     const body = req.body;
-    const uma = new Uma({
-      name: body.name,
-      hair_color: body.hair_color,
-      eye_color: body.eye_color,
-      height: body.height,
-      avatar: body.avatar,
-    });
 
-    const updatedUma = await Uma.findByIdAndUpdate(req.params.id, uma, {
+    const updatedUma = await Uma.findByIdAndUpdate(req.params.id, body, {
       new: true,
+      runValidators: true,
     });
 
     if (!updatedUma) {
