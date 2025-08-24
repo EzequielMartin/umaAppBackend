@@ -47,9 +47,7 @@ umasRouter.post("/", async (req, res) => {
 //Editar una uma por id
 umasRouter.put("/:id", async (req, res) => {
   try {
-    const body = req.body;
-
-    const updatedUma = await Uma.findByIdAndUpdate(req.params.id, body, {
+    const updatedUma = await Uma.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
