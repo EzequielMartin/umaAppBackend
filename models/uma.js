@@ -6,6 +6,7 @@ const umaScheme = new mongoose.Schema({
   eye_color: String,
   height: String,
   avatar: String,
+  user: String,
 });
 
 umaScheme.set("toJSON", {

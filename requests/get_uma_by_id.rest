@@ -1,1 +1,5 @@
+@token = {{$dotenv TOKEN}}
+
 GET http://localhost:3001/api/umas/689b89381680066818fe09fa
+content-type: application/json
+Authorization: Bearer {{token}}

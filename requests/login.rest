@@ -1,0 +1,10 @@
+@username = {{$dotenv USERNAME}}
+@password = {{$dotenv PASSWORD}}
+
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
