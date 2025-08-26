@@ -12,7 +12,7 @@ const getTokenFrom = (request) => {
   return null;
 };
 
-//Armo un middleware para obtener el token y para la validacion de errores
+//Armo un middleware para obtener el token y para la validacion de errores del token
 const tokenExtractor = (req, res, next) => {
   const token = getTokenFrom(req);
   try {
