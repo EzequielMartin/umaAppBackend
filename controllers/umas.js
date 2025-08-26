@@ -34,7 +34,7 @@ const tokenExtractor = (req, res, next) => {
 
 //Obtener todas las umas de la BD
 umasRouter.get("/", tokenExtractor, async (req, res) => {
-  const umas = await Uma.find({ user: req.user.id });
+  const umas = await Uma.find({ user: req.user.id }); //pasarle user:req.user.id hace que solo me retorne las umas del usuario, si lo dejo vacio me retorna todas las umas
   res.status(200).json(umas);
 });
 
