@@ -3,30 +3,48 @@ const usersRouter = require("express").Router();
 const User = require("../models/user");
 
 usersRouter.post("/", async (req, res) => {
-  const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
 
-  const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(password, saltRounds);
+    if (!(username || password)) {
+      return res
+        .status(400)
+        .json({ error: "El usuario y contraseña son requeridos" });
+    }
 
-  const user = new User({
-    username,
-    passwordHash,
-  });
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
 
-  const savedUser = await user.save();
+    const user = new User({
+      username,
+      passwordHash,
+    });
 
-  res.status(201).json(savedUser);
+    const savedUser = await user.save();
+
+    res.status(201).json(savedUser);
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({ error: "El username ya esta en uso" });
+    }
+    console.error(error);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
 });
 
 usersRouter.get("/", async (req, res) => {
-  const users = await User.find({}).populate("umas", {
-    name: 1,
-    hair_color: 1,
-    eye_color: 1,
-    height: 1,
-    avatar: 1,
-  });
-  response.json(users);
+  try {
+    const users = await User.find({}).populate("umas", {
+      name: 1,
+      hair_color: 1,
+      eye_color: 1,
+      height: 1,
+      avatar: 1,
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 module.exports = usersRouter;
