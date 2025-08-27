@@ -3,16 +3,17 @@
 //Usuario no encontrado
 //Contraseña incorrecta
 
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect, beforeEach, afterAll } from "vitest";
 import User from "../models/user";
 import bcrypt from "bcrypt";
 import app from "../app";
 import supertest from "supertest";
+import mongoose from "mongoose";
 
 const api = supertest(app);
 
 describe("Tests de creacion y login de usuarios", () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await User.deleteMany({});
 
     const passwordHash = await bcrypt.hash("secret123", 10);
@@ -48,5 +49,9 @@ describe("Tests de creacion y login de usuarios", () => {
       .send({ username: "testuser", password: "contraseniaincorrecta" })
       .expect(401);
     expect(response.body.error).toBe("Contraseña incorrecta");
+  });
+
+  afterAll(async () => {
+    await mongoose.connection.close();
   });
 });

@@ -9,9 +9,9 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "test": "cross-env NODE_ENV=test vitest",
-    "test:ui": "cross-env NODE_ENV=test vitest --ui",
-    "test:watch": "cross-env NODE_ENV=test vitest --watch"
+    "test": "cross-env NODE_ENV=test vitest run --sequence.concurrent=false --sequence.shuffle.tests=false",
+    "test:ui": "cross-env NODE_ENV=test vitest --ui run --sequence.concurrent=false --sequence.shuffle.tests=false",
+    "test:watch": "cross-env NODE_ENV=test vitest --watch run --sequence.concurrent=false --sequence.shuffle.tests=false"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
