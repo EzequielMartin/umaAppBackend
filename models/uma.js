@@ -17,4 +17,7 @@ umaScheme.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Uma", umaScheme);
+//El mongoose.models.Uma hace que no me tire el error de model duplicado, antes me tiraba este error: OverwriteModelError: Cannot overwrite `Uma` model once compiled.
+const Uma = mongoose.models.Uma || mongoose.model("Uma", umaScheme);
+
+module.exports = Uma;

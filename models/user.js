@@ -24,6 +24,7 @@ userSchema.set("toJSON", {
   },
 });
 
-const User = mongoose.model("User", userSchema);
+//El mongoose.models.User hace que no me tire el error de model duplicado, antes me tiraba este error: OverwriteModelError: Cannot overwrite `User` model once compiled.
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 module.exports = User;
