@@ -3,7 +3,7 @@
 //Usuario no encontrado
 //Contraseña incorrecta
 
-import { describe, it, expect, beforeEach, afterAll } from "vitest";
+import { describe, test, expect, beforeEach, afterAll } from "vitest";
 import User from "../models/user";
 import bcrypt from "bcrypt";
 import app from "../app";
@@ -21,7 +21,7 @@ describe("Tests de creacion y login de usuarios", () => {
     await user.save();
   });
 
-  it("Crea un nuevo usuario y hace login con este", async () => {
+  test("Crea un nuevo usuario y hace login con este", async () => {
     const users = await User.find({});
     expect(users).toHaveLength(1);
     expect(users[0].username).toBe("testuser");
@@ -35,7 +35,7 @@ describe("Tests de creacion y login de usuarios", () => {
     expect(response.body.username).toBe("testuser");
   });
 
-  it("Intenta loguear con un usuario incorrecto", async () => {
+  test("Intenta loguear con un usuario incorrecto", async () => {
     const response = await api
       .post("/api/login")
       .send({ username: "usuarioincorrecto", password: "secret123" })
@@ -43,7 +43,7 @@ describe("Tests de creacion y login de usuarios", () => {
     expect(response.body.error).toBe("Usuario incorrecto");
   });
 
-  it("Intenta loguear con una contraseña incorrecta", async () => {
+  test("Intenta loguear con una contraseña incorrecta", async () => {
     const response = await api
       .post("/api/login")
       .send({ username: "testuser", password: "contraseniaincorrecta" })

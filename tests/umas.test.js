@@ -5,7 +5,7 @@
 //Obtener la info de una uma por id
 //Editar una uma
 //Eliminar una uma
-import { describe, it, expect, beforeEach, afterAll } from "vitest";
+import { describe, test, expect, beforeEach, afterAll } from "vitest";
 import User from "../models/user";
 import Uma from "../models/uma";
 import bcrypt from "bcrypt";
@@ -44,7 +44,7 @@ describe("Tests para Umas", () => {
     };
   });
 
-  it("Token invalido al crear una Uma", async () => {
+  test("Token invalido al crear una Uma", async () => {
     const response = await api
       .post("/api/umas")
       .set("Authorization", `Bearer token_invalido`)
@@ -53,7 +53,7 @@ describe("Tests para Umas", () => {
     expect(response.status).toBe(401);
   });
 
-  it("Crear una uma correctamente", async () => {
+  test("Crear una uma correctamente", async () => {
     const response = await api
       .post("/api/umas")
       .set("Authorization", `Bearer ${token}`)
@@ -62,7 +62,7 @@ describe("Tests para Umas", () => {
     expect(response.status).toBe(201);
   });
 
-  it("Editar una uma correctamente", async () => {
+  test("Editar una uma correctamente", async () => {
     const createResponse = await api
       .post("/api/umas")
       .set("Authorization", `Bearer ${token}`)
@@ -84,7 +84,7 @@ describe("Tests para Umas", () => {
     expect(editResponse.body.name).toBe("Editada");
   });
 
-  it("Editar una uma incorrectamente", async () => {
+  test("Editar una uma incorrectamente", async () => {
     const createResponse = await api
       .post("/api/umas")
       .set("Authorization", `Bearer ${token}`)
@@ -106,7 +106,7 @@ describe("Tests para Umas", () => {
     expect(editResponse.body.error).toBe("ID invalido o error al actualizar");
   });
 
-  it("Eliminar una uma correctamente", async () => {
+  test("Eliminar una uma correctamente", async () => {
     const createResponse = await api
       .post("/api/umas")
       .set("Authorization", `Bearer ${token}`)
@@ -121,8 +121,8 @@ describe("Tests para Umas", () => {
     expect(deleteResponse.status).toBe(200);
   });
 
-  it("Eliminar una uma incorrectamente", async () => {
-    const createResponse = await api
+  test("Eliminar una uma incorrectamente", async () => {
+    await api
       .post("/api/umas")
       .set("Authorization", `Bearer ${token}`)
       .send(uma);
@@ -135,7 +135,7 @@ describe("Tests para Umas", () => {
     expect(deleteResponse.body.error).toBe("ID invalido o error al eliminar");
   });
 
-  it("Obtener info de una Uma por Id", async () => {
+  test("Obtener info de una Uma por Id", async () => {
     const createResponse = await api
       .post("/api/umas")
       .set("Authorization", `Bearer ${token}`)
@@ -151,7 +151,7 @@ describe("Tests para Umas", () => {
     expect(getOneResponse.body.name).toBe("Test");
   });
 
-  it("Obtener las umas de un usuario", async () => {
+  test("Obtener las umas de un usuario", async () => {
     //Agrego 2 umas
     await api
       .post("/api/umas")

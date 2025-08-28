@@ -1,7 +1,7 @@
 //Voy a implementar tests para:
 //Creacion de usuario
 //Obtener toda la lista de usuarios
-import { describe, it, expect, beforeEach, afterAll } from "vitest";
+import { describe, test, expect, beforeEach, afterAll } from "vitest";
 import User from "../models/user";
 import app from "../app";
 import supertest from "supertest";
@@ -14,7 +14,7 @@ describe("Tests para usuarios", () => {
     await User.deleteMany({});
   });
 
-  it("Creacion de usuario correcta", async () => {
+  test("Creacion de usuario correcta", async () => {
     const createUserResponse = await api
       .post("/api/users")
       .send({ username: "testusercreation", password: "password" });
@@ -22,7 +22,7 @@ describe("Tests para usuarios", () => {
     expect(createUserResponse.status).toBe(201);
   });
 
-  it("Creacion de usuario incorrecta, username duplicado", async () => {
+  test("Creacion de usuario incorrecta, username duplicado", async () => {
     await api
       .post("/api/users")
       .send({ username: "testuserduplicado", password: "password" });
@@ -35,7 +35,7 @@ describe("Tests para usuarios", () => {
     expect(createUserResponse.body.error).toBe("El username ya esta en uso");
   });
 
-  it("Obtener toda la lista de usuarios", async () => {
+  test("Obtener toda la lista de usuarios", async () => {
     //Agrego 2 usuarios
     await api
       .post("/api/users")
