@@ -12,6 +12,7 @@ const getTokenFrom = (request) => {
   return null;
 };
 
+//Cuando se hace una request a uno de los endpoints, antes de ejecutar el async (req, res) => { ... } del endpoint se va a ejecutar este middleware
 //Armo un middleware para obtener el token y para la validacion de errores del token
 const tokenExtractor = (req, res, next) => {
   const token = getTokenFrom(req);
@@ -21,8 +22,9 @@ const tokenExtractor = (req, res, next) => {
       return res.status(401).json({ error: "Token inválido" });
     }
     req.user = decodedToken;
-    next();
+    next(); //El next() hace que continue la ejecutcion, osea que se ejecute el async (req, res) => { ... }
   } catch (error) {
+    //Si el getTokenFrom(req) = null va a devolver un "JsonWebTokenError", por lo que va a entrar aca
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({ error: "Token invalido" });
     } else if (error.name === "TokenExpiredError") {
@@ -33,6 +35,7 @@ const tokenExtractor = (req, res, next) => {
 };
 
 //Obtener todas las umas de la BD
+//Antes de ejecutar la funcion del endpoint voy a llamar al tokenExtractor para ver si el token es correcto, desp se ejecuta la funcion que retorna la lista de umas
 umasRouter.get("/", tokenExtractor, async (req, res) => {
   const umas = await Uma.find({ user: req.user.id }); //pasarle user:req.user.id hace que solo me retorne las umas del usuario, si lo dejo vacio me retorna todas las umas
   res.status(200).json(umas);
